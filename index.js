@@ -3,6 +3,7 @@ function create_random_numer() {
     return random;
 }
 
+//--------------------------------------------------------------//
 function create_cards() {
     class card {
         constructor(name, life, attack, speed) {
@@ -29,6 +30,7 @@ function create_cards() {
     return results;
 };
 
+//--------------------------------------------------------------//
 function create_deck(game_deck) {
     let personal_deck = [];
 
@@ -39,61 +41,86 @@ function create_deck(game_deck) {
     return personal_deck;
 };
 
+//--------------------------------------------------------------//
 function start_game() {
-    player_cards.forEach((card, index) => {
+    for (let [index, card] of player_cards.entries()) {
+        //functions
+        function win() {
+        console.log('Player wins!')
+        player_cards.push(enemy_cards[index])
+        enemy_cards.splice(index, 1)
+        };
+
+        function lose() {
+            console.log('Player loses!')
+            player_cards.splice(index, 1)
+            enemy_cards.push(card)
+        }
+        //--------------------------------------------------------------//
+        //consts and variables
         const atributes = ['life', 'attack', 'speed']; 
 
+        //--------------------------------------------------------------//
+        //program game
         let act = prompt(` ${card.name}: life = ${card.life}, attack = ${card.attack}, speed = ${card.speed}
             \n choose and atribute ${atributes}:` );
         
         if (!atributes.includes(act)) {
             console.log('Atribute non existant!')
         }
-        else {
+        else{
+            if (enemy_cards.length <= 0) break;   
+            else {
+            //--------------------------------------------------------------//
+            // attributes comparation
+            //life
             if (act == 'life') {
                 console.log(`${card.name}: life = ${card.life} vs ${enemy_cards[index].name}: life = ${enemy_cards[index].life}`);
                 if (card.life > enemy_cards[index].life) {
-                    console.log('Player wins!')
+                    win()
                 } 
                 else {
                     if (card.life < enemy_cards[index].life) {
-                        console.log('Player loses!')
+                        lose()
                     } 
                     else{
                         console.log("It's a tie")
                     }
                 }
             }
+            //attack
             if (act == 'attack') {
                 console.log(`${card.name}: attack = ${card.attack} vs ${enemy_cards[index].name}: attack = ${enemy_cards[index].attack}`);
                 if (card.attack > enemy_cards[index].attack) {
-                    console.log('Player wins!')
+                    win()
                 } 
                 else {
                     if (card.attack < enemy_cards[index].attack) {
-                        console.log('Player loses!')
+                        lose()
                     } 
                     else{
                         console.log("It's a tie")
                     }
                 }
             }
+            //speed
             if (act == 'speed') {
                 console.log(`${card.name}: speed = ${card.speed} vs ${enemy_cards[index].name}: speed = ${enemy_cards[index].speed}`);
                 if (card.speed > enemy_cards[index].speed) {
-                    console.log('Player wins!')
+                    win()
                 } 
                 else {
                     if (card.speed < enemy_cards[index].speed) {
-                        console.log('Player loses!')
+                        lose()
                     } 
                     else{
                         console.log("It's a tie")
                     }
                 }
             }
+            }
         }
-    })
+    }
 }
 
 var cards = create_cards();
@@ -101,4 +128,4 @@ var cards = create_cards();
 var player_cards = create_deck(cards);
 var enemy_cards = create_deck(cards);
 
-"start_game();"
+start_game();
